@@ -1,63 +1,63 @@
 const router = require('express').Router();
-const { Category, Product } = require('../../models');
+const { ProductTag, Product, Tag } = require('../../models');
 
-// Get all categories with associated products
+// Get all product tags with associated products and tags
 router.get('/', async (req, res) => {
   try {
-    const categories = await Category.findAll({
-      include: [{ model: Product }],
+    const productTags = await ProductTag.findAll({
+      include: [{ model: Product }, { model: Tag }],
     });
-    res.json(categories);
+    res.json(productTags);
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
   }
 });
 
-// Get one category by ID with associated products
+// Get one product tag by ID with associated product and tag
 router.get('/:id', async (req, res) => {
   try {
-    const category = await Category.findByPk(req.params.id, {
-      include: [{ model: Product }],
+    const productTag = await ProductTag.findByPk(req.params.id, {
+      include: [{ model: Product }, { model: Tag }],
     });
-    res.json(category);
+    res.json(productTag);
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
   }
 });
 
-// Create a new category
+// Create a new product tag
 router.post('/', async (req, res) => {
   try {
-    const newCategory = await Category.create(req.body);
-    res.json(newCategory);
+    const newProductTag = await ProductTag.create(req.body);
+    res.json(newProductTag);
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
   }
 });
 
-// Update a category by ID
+// Update a product tag by ID
 router.put('/:id', async (req, res) => {
   try {
-    const updatedCategory = await Category.update(req.body, {
+    const updatedProductTag = await ProductTag.update(req.body, {
       where: { id: req.params.id },
     });
-    res.json(updatedCategory);
+    res.json(updatedProductTag);
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
   }
 });
 
-// Delete a category by ID
+// Delete a product tag by ID
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedCategory = await Category.destroy({
+    const deletedProductTag = await ProductTag.destroy({
       where: { id: req.params.id },
     });
-    res.json(deletedCategory);
+    res.json(deletedProductTag);
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
